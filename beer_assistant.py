@@ -286,7 +286,7 @@ def plot_training_and_cv_rmse_and_mean_cost_function_for(nbeers, nfeatures, trai
     cv_rmse             = np.array([]);
     training_rmse       = np.array([]);
     
-    while regularizer >= (regularizer_min if regularizer_increment < 0.0 else regularizer_max):
+    while ((regularizer >= regularizer_min) if regularizer_increment < 0.0 else ((regularizer <= regularizer_max))):
         regularizer = max(regularizer, 0.01);
         regularizer = round(regularizer, 3)
         training_cost, cv_cost, training_rmse_, cv_rmse_, n_rated_training, n_rated_cv = get_training_and_cv_cost(nbeers, nusers_training, nusers_cv, nfeatures, regularizer)
@@ -301,12 +301,14 @@ def plot_training_and_cv_rmse_and_mean_cost_function_for(nbeers, nfeatures, trai
     plt.xlabel('Regularizer')
     plt.plot(regularizer_values, training_rmse, 'b-o', label="RMSE on training set of users")
     plt.legend(loc='best')
+    plt.savefig('RMSE_cv_and_training.png')
     plt.show()
     
     plt.plot(regularizer_values, cv_mean_cost, 'r-o', label="Optimal (mean) cost function on cv set of users")
     plt.xlabel('Regularizer')
     plt.plot(regularizer_values, training_mean_cost, 'b-o', label="Optimal (mean) cost function on training set of users")
     plt.legend(loc='best')
+    plt.savefig('optimal_mean_cost_function_cv_and_training.png')
     plt.show()
     
     return;
